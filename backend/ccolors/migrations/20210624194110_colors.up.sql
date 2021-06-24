@@ -9,5 +9,6 @@ CREATE TYPE colorHSV AS (
 CREATE TABLE IF NOT EXISTS colors(
     id SERIAL PRIMARY KEY,
     name VARCHAR NOT NULL,
-    value colorHSV NOT NULL
+    value colorHSV NOT NULL,
+    UNIQUE (value, name)
 );
