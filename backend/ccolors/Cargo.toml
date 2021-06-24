@@ -1,0 +1,14 @@
+[package]
+authors = ["Doug Stephen <dstephen@oxefit.com>"]
+edition = "2018"
+name = "ccolors"
+version = "0.1.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0"
+dotenv = "0.15"
+rocket = "0.5.0-rc.1"
+sqlx = {version = "0.5", features = ["runtime-tokio-rustls", "postgres"]}
+tokio = {version = "1.6.1", features = ["full"]}
