@@ -1,4 +1,4 @@
-CREATE DOMAIN colorPart DECIMAL NOT NULL CHECK(VALUE >= 0.0 AND VALUE <= 1.0);
+CREATE DOMAIN colorPart REAL NOT NULL CHECK(VALUE >= 0.0 AND VALUE <= 1.0);
 
 CREATE TYPE colorHSV AS (
     hue colorPart,
@@ -8,7 +8,6 @@ CREATE TYPE colorHSV AS (
 
 CREATE TABLE IF NOT EXISTS colors(
     id SERIAL PRIMARY KEY,
-    name VARCHAR NOT NULL,
-    value colorHSV NOT NULL,
-    UNIQUE (value, name)
+    name VARCHAR NOT NULL UNIQUE,
+    value colorHSV NOT NULL UNIQUE
 );
