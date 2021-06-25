@@ -13,6 +13,8 @@ async fn main() -> Result<()> {
     // Load environment variables from .env file
     dotenv::dotenv().context("Couldn't load .env file")?;
 
+    env_logger::init();
+
     match rocket().launch().await {
         Ok(_) => Ok(()),
         Err(e) => Err(e.into()),
