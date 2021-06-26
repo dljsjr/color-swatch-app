@@ -11,7 +11,14 @@ fn rocket() -> Rocket<Build> {
 #[rocket::main]
 async fn main() -> Result<()> {
     // Load environment variables from .env file
-    dotenv::dotenv().context("Couldn't load .env file")?;
+    #[cfg(debug_assertions)]
+    {
+        dotenv::from_filename("dev.env").context("Couldn't load .env file")?;
+    }
+    #[cfg(not(debug_assertions))]
+    {
+        dotenv::dotenv().context("Couldn't load .env file")?;
+    }
 
     env_logger::init();
 
