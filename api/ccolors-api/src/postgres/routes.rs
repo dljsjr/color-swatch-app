@@ -29,7 +29,9 @@ use JsonResponse::*;
 
 #[get("/?<limit>&<start_at>")]
 pub async fn get_colors(db: &State<Database>, limit: usize, start_at: usize) -> JsonResponse {
-    let mut rows = sqlx::query_as!(ColorRecord, r#"SELECT name, value as "value: ColorHSV" FROM colors WHERE id BETWEEN $1 AND $2"#, start_at as i32, limit as i32).fetch(&**db);
+    let start: i32 = start_at as i32;
+    let end: i32 = (start_at + limit - 1) as i32;
+    let mut rows = sqlx::query_as!(ColorRecord, r#"SELECT name, value as "value: ColorHSV" FROM colors WHERE id BETWEEN $1 AND $2"#, start, end).fetch(&**db);
     
     let mut ret: Vec<ColorRecord> = Vec::with_capacity(limit);
 
