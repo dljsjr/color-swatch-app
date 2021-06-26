@@ -1,0 +1,3 @@
+wheel
+fire
+psycopg2-binary
