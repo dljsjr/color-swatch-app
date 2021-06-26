@@ -40,7 +40,6 @@ INSERT INTO colors ( name, value ) VALUES ( $1, (($2)::colorPart,($3)::colorPart
     .await {
         match &e {
             sqlx::Error::Database(ref boxed) => {
-                log::error!("DB Error!");
                 let db_error = boxed.downcast_ref::<PgDatabaseError>();
                 
                 let json = serde_json::json!({
@@ -51,7 +50,7 @@ INSERT INTO colors ( name, value ) VALUES ( $1, (($2)::colorPart,($3)::colorPart
                     }
                 });
 
-                status::Custom(Status::Ok, content::Json(json.to_string()))
+                status::Custom(Status::InternalServerError, content::Json(json.to_string()))
             }
             _ => {
                     let json = serde_json::json!({
