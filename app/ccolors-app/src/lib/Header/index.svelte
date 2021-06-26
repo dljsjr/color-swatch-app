@@ -1,0 +1,14 @@
+<script>
+    let searchString = '';
+</script>
+
+<style>
+    div {
+        background-color: #363C3C;
+    }
+</style>
+
+<div class="box-content w-full h-24 flex flex-row justify-between items-center">
+    <img src="/logo-symbol.svg" alt="Helpful Humans Logo" class="block h-4/5 w-14 ml-6">
+    <input bind:value={searchString} placeholder="Search" class="h-2/5 w-1/5 p-4 mr-6 rounded-md">
+</div>
