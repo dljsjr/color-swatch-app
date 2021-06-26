@@ -1,23 +1,5 @@
 {
   "db": "PostgreSQL",
-  "7630b2708073f9e1e409196bedb80174234d1556f37f95eb322b8c9d0641e803": {
-    "query": "SELECT COUNT(*) FROM colors",
-    "describe": {
-      "columns": [
-        {
-          "ordinal": 0,
-          "name": "count",
-          "type_info": "Int8"
-        }
-      ],
-      "parameters": {
-        "Left": []
-      },
-      "nullable": [
-        null
-      ]
-    }
-  },
   "83a5273ff2b774f763e788c49ad1834ad786d585e0a3b1e2b9d04098362ea387": {
     "query": "\nINSERT INTO colors ( name, value ) VALUES ( $1, (($2)::colorPart,($3)::colorPart,($4)::colorPart)::colorHSV )\n        ",
     "describe": {
@@ -52,6 +34,74 @@
         ]
       },
       "nullable": []
+    }
+  },
+  "b9e5e38645cca7b57a918705795edf18e2210889d61ced1888498d477fce5470": {
+    "query": "SELECT name, value as \"value: ColorHSV\" FROM colors WHERE id BETWEEN $1 AND $2",
+    "describe": {
+      "columns": [
+        {
+          "ordinal": 0,
+          "name": "name",
+          "type_info": "Varchar"
+        },
+        {
+          "ordinal": 1,
+          "name": "value: ColorHSV",
+          "type_info": {
+            "Custom": {
+              "name": "colorhsv",
+              "kind": {
+                "Composite": [
+                  [
+                    "hue",
+                    {
+                      "Custom": {
+                        "name": "colorpart",
+                        "kind": {
+                          "Domain": "Float4"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "sat",
+                    {
+                      "Custom": {
+                        "name": "colorpart",
+                        "kind": {
+                          "Domain": "Float4"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "val",
+                    {
+                      "Custom": {
+                        "name": "colorpart",
+                        "kind": {
+                          "Domain": "Float4"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "parameters": {
+        "Left": [
+          "Int4",
+          "Int4"
+        ]
+      },
+      "nullable": [
+        false,
+        false
+      ]
     }
   }
 }

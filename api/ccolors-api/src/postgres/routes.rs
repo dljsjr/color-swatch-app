@@ -1,0 +1,105 @@
+use crate::types::{ColorRecord, ColorHSV, Database};
+use rocket::{State, response::{Responder, }, serde::json::Json};
+use serde_json::Value;
+use sqlx::postgres::PgDatabaseError;
+use rocket::futures::TryStreamExt;
+
+// #[derive(Responder)]
+// #[response(status = 500, content_type = "json")]
+// struct PgErrorReponse(String);
+
+// #[derive(Responder)]
+// #[response(status = 201, content_type = "json")]
+// struct CreatedResponse(String);
+
+#[derive(Responder)]
+#[response(content_type = "json")]
+pub enum JsonResponse {
+    #[response(status = 201)]
+    Created(Value),
+    #[response(status = 500)]
+    DatabaseError(Value),
+    #[response(status = 200)]
+    Success(Value)
+}
+
+use JsonResponse::*;
+
+
+
+#[get("/?<limit>&<start_at>")]
+pub async fn get_colors(db: &State<Database>, limit: usize, start_at: usize) -> JsonResponse {
+    let mut rows = sqlx::query_as!(ColorRecord, r#"SELECT name, value as "value: ColorHSV" FROM colors WHERE id BETWEEN $1 AND $2"#, start_at as i32, limit as i32).fetch(&**db);
+    
+    let mut ret: Vec<ColorRecord> = Vec::with_capacity(limit);
+
+    loop {
+        match rows.try_next().await {
+            Ok(Some(color)) => {
+                ret.push(color);
+            }
+            Ok(None) => {
+                break;
+            }
+            Err(e) => {
+                let json = serde_json::json!({
+                    "created": false,
+                    "reason": {
+                        "message": format!("{:?}", &e),
+                        "detail": ""
+                    }
+                });
+                return DatabaseError(json);
+            }
+        }
+    }
+
+    Success(serde_json::to_value(&ret).unwrap_or_default())
+}
+
+#[post("/add", format = "application/json", data = "<color>")]
+pub async fn add_color(
+    db: &State<Database>,
+    color: Json<ColorRecord>,
+) -> JsonResponse {
+    let (hue, sat, val) = color.value.as_hsv_tuple();
+    if let Err(e) = sqlx::query!(
+        r#"
+INSERT INTO colors ( name, value ) VALUES ( $1, (($2)::colorPart,($3)::colorPart,($4)::colorPart)::colorHSV )
+        "#,
+        color.name,
+        hue as f32,
+        sat as f32,
+        val as f32
+    ).execute(&**db)
+    .await {
+        match &e {
+            sqlx::Error::Database(ref boxed) => {
+                let db_error = boxed.downcast_ref::<PgDatabaseError>();
+                
+                let json = serde_json::json!({
+                    "created": false,
+                    "reason": {
+                        "message": db_error.message(),
+                        "detail": db_error.detail().unwrap_or_default()
+                    }
+                });
+
+                DatabaseError(json)
+            }
+            _ => {
+                let json = serde_json::json!({
+                    "created": false,
+                    "reason": {
+                        "message": format!("{:?}", &e),
+                        "detail": ""
+                    }
+                });
+                DatabaseError(json)
+            }
+        }
+    } else {
+        let json = serde_json::json!({"created": true});
+        Created(json)
+    }
+}

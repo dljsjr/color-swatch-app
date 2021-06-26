@@ -1,9 +1,9 @@
-pub mod queries;
-pub use queries::*;
+pub mod routes;
 use rocket::{
     fairing::{self, AdHoc},
     Build, Rocket,
 };
+pub use routes::*;
 use sqlx::migrate;
 use std::env;
 
@@ -35,9 +35,6 @@ pub fn stage_database() -> AdHoc {
                 "SQLx Postgres Database",
                 init_postgres,
             ))
-            .mount(
-                "/",
-                routes![queries::index_with_color_count, queries::add_color],
-            )
+            .mount("/colors", routes![routes::get_colors, routes::add_color])
     })
 }
