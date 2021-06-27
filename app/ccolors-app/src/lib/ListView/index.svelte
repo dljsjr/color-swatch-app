@@ -24,9 +24,15 @@
 	</div>
 	<div class="flex flex-row justify-center">
 		{#each Array($totalPages) as _, idx}
-			<a class="" href="/colors/{idx + 1}">
+			<a class="text-2xl mx-2 mt-8 hover:underline hover:text-black" href="/colors/{idx + 1}">
 				{idx + 1}
 			</a>
 		{/each}
 	</div>
 </div>
+
+<style>
+	a {
+		color: #363c3c;
+	}
+</style>
