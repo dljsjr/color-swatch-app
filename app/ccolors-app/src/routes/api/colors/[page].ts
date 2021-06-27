@@ -13,7 +13,7 @@ export async function get({ params }) {
     if (colors !== undefined && limit !== undefined) {
         const startAt = requestedPage + ((requestedPage - 1) * (limit - 1));
         
-        const colors_url = 'http://localhost:8000/colors?limit=25&start_at=' + startAt;
+        const colors_url = 'http://localhost:8000/colors?limit=' + limit + '&start_at=' + startAt;
         const response = await fetch(colors_url);
 
         if (response.ok) {
