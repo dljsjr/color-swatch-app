@@ -1,0 +1,10 @@
+ccolors.dougstephenjr.com {
+    templates
+
+    encode gzip zstd
+
+    try_files {path}.html {path}
+
+    reverse_proxy * app:3000
+}
+

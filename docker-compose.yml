@@ -1,17 +1,26 @@
 version: "3.6"
 services:
+  proxy:
+    image: caddy:2-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+    depends_on:
+      - app
   api:
     build: api
     restart: always
     depends_on:
       - postgres
-    ports:
-      - "8000:8000"
+    # ports:
+    #   - "8000:8000"
   postgres:
     image: postgres:12
     restart: always
-    ports:
-      - "5432:5432"
+    # ports:
+    #   - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
@@ -23,8 +32,8 @@ services:
     depends_on:
       - api
       - postgres
-    ports:
-      - "3000:3000"
+    # ports:
+    #   - "3000:3000"
 ## This docker-compose is based on the Hasura docker compose.
 ## graphql-engine commented out for now. Just using it to bring
 ## up postgres.
