@@ -14,7 +14,9 @@
 	style="background-color: hsl({hsl[0]}, {hsl[1]}%, {hsl[2]}%);"
 >
 	<div class="w-full h-5/6" />
-	<p class="text-base pl-2 pb-0.5 overflow-ellipsis overflow-hidden w-full text-left bg-white">
+	<p
+		class="text-base pl-2 pb-0.5 overflow-ellipsis overflow-hidden w-full text-left bg-white border-t border-gray-200"
+	>
 		{hexCode()}
 	</p>
 	<p
