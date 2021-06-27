@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { hslToRgb, rgbToHexString } from '$lib/colors';
+	import { hslToRgb, rgbToHexString } from '$lib/_colors';
 
 	export let colorName: string = '';
 	export let hsl: [number, number, number] = [0.0, 0.0, 0.0];
