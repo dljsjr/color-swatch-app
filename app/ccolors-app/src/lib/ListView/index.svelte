@@ -1,5 +1,7 @@
 <script lang="ts">
 	import SwatchPreview from '$lib/SwatchPreview/index.svelte';
+	import { totalPages } from '$lib/stores/state';
+
 	export let colors;
 
 	export const getHSLSatFromHSV = (value: { hue: number; sat: number; val: number }): number => {
@@ -10,12 +12,21 @@
 	};
 </script>
 
-<div class="container mx-auto px-10 flex flex-wrap flex-row overflow-auto">
-	{#each colors as { name, value }}
-		<SwatchPreview
-			class="my-8 mx-auto md:mx-3"
-			colorName={name}
-			hsl={[360 * value.hue, 100 * getHSLSatFromHSV(value), (100 * value.hue) / 2]}
-		/>
-	{/each}
+<div class="container mx-auto flex flex-col overflow-auto">
+	<div class="container mx-auto px-10 flex flex-wrap flex-row">
+		{#each colors as { name, value }}
+			<SwatchPreview
+				class="my-8 mx-auto md:mx-3"
+				colorName={name}
+				hsl={[360 * value.hue, 100 * getHSLSatFromHSV(value), (100 * value.hue) / 2]}
+			/>
+		{/each}
+	</div>
+	<div class="flex flex-row justify-center">
+		{#each Array($totalPages) as _, idx}
+			<a class="" href="/colors/{idx + 1}">
+				{idx + 1}
+			</a>
+		{/each}
+	</div>
 </div>

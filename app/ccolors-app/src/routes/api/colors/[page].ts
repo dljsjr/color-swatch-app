@@ -1,5 +1,5 @@
 import {
-    colorsPerPage, totalColors, totalPages
+    colorsPerPage, totalColors
 } from "$lib/stores/state";
 
 export async function get({ params }) {
@@ -11,8 +11,6 @@ export async function get({ params }) {
     colorsPerPage.subscribe(val => limit = val)();
 
     if (colors !== undefined && limit !== undefined) {
-        const pages = Math.ceil(colors / limit);
-        totalPages.set(pages);
         const startAt = requestedPage + ((requestedPage - 1) * (limit - 1));
         
         const colors_url = 'http://localhost:8000/colors?limit=25&start_at=' + startAt;
