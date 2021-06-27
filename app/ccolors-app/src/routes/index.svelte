@@ -1,23 +1,36 @@
 <script lang="ts" context="module">
+	import { totalColors } from '$lib/stores/state';
 	/**
 	 * @type {import('@sveltejs/kit').Load}
 	 */
 	export async function load({ page, fetch, session, context }) {
-		const api_url = 'http://localhost:8000/colors?limit=25&start_at=1';
-		const api_response = await fetch(api_url);
+		const metadata_fetch = await fetch('/api/count');
 
-		if (api_response.ok) {
+		if (metadata_fetch.ok) {
+			const count = (await metadata_fetch.json())['json']['count'];
+			totalColors.set(count);
+		} else {
 			return {
-				props: {
-					json: await api_response.json()
-				}
+				status: metadata_fetch.status,
+				error: new Error(`Error getting color list from API ${metadata_fetch.error}`)
 			};
 		}
 
-		return {
-			status: api_response.status,
-			error: new Error(`Error getting color list from API ${api_response.error}`)
-		};
+		const colors_fetch = await fetch('/api/colors/1');
+		let colors_json = (await colors_fetch.json())['json'];
+
+		if (colors_fetch.ok) {
+			return {
+				props: {
+					json: colors_json
+				}
+			};
+		} else {
+			return {
+				status: colors_fetch.status,
+				error: new Error(`Error getting color list from API ${colors_fetch.error}`)
+			};
+		}
 	}
 </script>
 
