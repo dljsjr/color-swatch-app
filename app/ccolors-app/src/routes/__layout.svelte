@@ -4,9 +4,9 @@
 	import SideBar from '$lib/SideBar/index.svelte';
 </script>
 
-<div class="h-screen w-screen flex flex-col">
+<div class="h-full w-full flex flex-col">
 	<Header />
-	<div class="h-full w-full flex flex-row">
+	<div class="h-full w-full flex flex-row overflow-hidden">
 		<SideBar />
 		<slot />
 	</div>

@@ -10,7 +10,7 @@
 	};
 </script>
 
-<div class="container mx-auto px-10 flex flex-wrap flex-row">
+<div class="container mx-auto px-10 flex flex-wrap flex-row overflow-auto">
 	{#each colors as { name, value }}
 		<SwatchPreview
 			class="my-8 mx-auto md:mx-3"
