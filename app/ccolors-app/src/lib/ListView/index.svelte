@@ -14,10 +14,11 @@
 
 <div class="container mx-auto flex flex-col overflow-auto">
 	<div class="container mx-auto px-10 flex flex-wrap flex-row">
-		{#each colors as { name, value }}
+		{#each colors as { id, name, value }}
 			<SwatchPreview
 				class="my-8 mx-auto md:mx-3"
 				colorName={name}
+				{id}
 				hsl={[360 * value.hue, 100 * getHSLSatFromHSV(value), (100 * value.hue) / 2]}
 			/>
 		{/each}

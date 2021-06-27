@@ -3,6 +3,7 @@
 
 	export let colorName: string = '';
 	export let hsl: [number, number, number] = [0.0, 0.0, 0.0];
+	export let id: number = 0;
 
 	$: hexCode = (): string => {
 		return rgbToHexString(...hslToRgb(...hsl));
