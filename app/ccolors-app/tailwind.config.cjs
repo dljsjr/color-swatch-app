@@ -4,7 +4,11 @@ const config = {
 		"./src/**/*.{html,js,svelte,ts}",
 	],
 	theme: {
-		extend: {},
+		extend: {
+			fontFamily: {
+				'source-serif-pro': ['"Source Serif Pro"', 'serif']
+			}
+		},
 	},
 	plugins: [],
 };

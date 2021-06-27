@@ -1,4 +1,12 @@
 @tailwind base;
-/* Write your global styles here, in PostCSS syntax */
+
+.swatch-preview {
+	@apply flex-grow-0 flex-shrink-0 w-40 h-44 rounded-lg flex flex-col content-start;
+}
+
+.header {
+	@apply flex-grow-0 flex-shrink-0 box-content w-full h-16 py-3 flex flex-row justify-between items-center;
+}
+
 @tailwind components;
-@tailwind utilities
+@tailwind utilities;
