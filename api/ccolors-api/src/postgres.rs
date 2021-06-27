@@ -37,7 +37,12 @@ pub fn stage_database() -> AdHoc {
             ))
             .mount(
                 "/colors",
-                routes![routes::get_colors, routes::add_color, routes::get_info],
+                routes![
+                    routes::get_colors,
+                    routes::add_color,
+                    routes::get_info,
+                    routes::get_color
+                ],
             )
     })
 }

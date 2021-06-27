@@ -25,6 +25,24 @@ pub enum JsonResponse {
 
 use JsonResponse::*;
 
+#[get("/get?<id>")]
+pub async fn get_color(db: &State<Database>, id: usize) -> JsonResponse {
+    let color = sqlx::query_as!(ColorRecord, r#"SELECT id as "id: u32", name, value as "value: ColorHSV" FROM colors WHERE id = $1"#, id as i32).fetch_one(&**db).await;
+
+    match color {
+        Ok(record) => {
+            Success(serde_json::to_value(&record).unwrap())
+        },
+        Err(e) => {
+            DatabaseError(serde_json::json!({
+                "error": {
+                    "message": format!("{:?}", &e)
+                }
+            }))
+        }
+    }
+}
+
 #[get("/info")]
 pub async fn get_info(db: &State<Database>) -> JsonResponse {
     match sqlx::query!("SELECT COUNT(*) FROM colors").fetch_one(&**db).await {
