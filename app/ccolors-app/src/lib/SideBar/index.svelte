@@ -11,7 +11,7 @@
 	];
 </script>
 
-<div class="h-full w-60 flex-grow-0 flex-shrink-0 flex flex-col items-start pt-10" id="sidebar">
+<div class="h-full w-80 flex-grow-0 flex-shrink-0 flex flex-col items-start pt-10" id="sidebar">
 	<button class="w-4/5 h-10 mx-auto bg-white rounded-lg border border-black font-bold rainbow">
 		Random Color
 	</button>

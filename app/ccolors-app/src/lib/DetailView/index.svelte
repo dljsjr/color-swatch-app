@@ -10,28 +10,28 @@
 	};
 </script>
 
-<a
-	class="swatch-preview {$$props.class}"
+<div
+	class="swatch-detail justify-end {$$props.class}"
 	style="background-color: hsl({hsl[0]}, {hsl[1]}%, {hsl[2]}%);"
 	href="/detail/{id}"
 >
 	<div class="w-full h-5/6" />
 	<p
-		class="text-base pl-2 pb-0.5 overflow-ellipsis overflow-hidden w-full text-left bg-white border-t border-gray-200"
+		class="text-4xl pl-8 pb-0.5 pt-5 overflow-ellipsis overflow-hidden w-full text-left bg-white border-t border-gray-200"
 	>
 		{hexCode()}
 	</p>
 	<p
-		class="text-xs pl-2 pb-1 overflow-ellipsis overflow-hidden w-full text-left bg-white rounded-b-md"
+		class="text-2xl pl-8 pb-4 overflow-ellipsis overflow-hidden w-full text-left bg-white rounded-b-xl"
 	>
 		{colorName}
 	</p>
-</a>
+</div>
 
 <style lang="scss">
-	.swatch-preview {
-		box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.5);
-		border: 1px solid #fdfdfd;
+	.swatch-detail {
+		box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+		box-shadow: inset 0px 2px 6px rgba(0, 0, 0, 0.2);
 		p {
 			color: #363c3c;
 			background-color: #fdfdfd;
