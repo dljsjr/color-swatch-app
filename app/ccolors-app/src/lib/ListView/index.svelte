@@ -1,15 +1,9 @@
 <script lang="ts">
 	import SwatchPreview from '$lib/SwatchPreview/index.svelte';
 	import { totalPages } from '$lib/stores/state';
+	import { getHSLSatFromHSV } from '$lib/_colors';
 
 	export let colors;
-
-	export const getHSLSatFromHSV = (value: { hue: number; sat: number; val: number }): number => {
-		return (
-			(value.sat * value.val) /
-			((value.hue = (2 - value.sat) * value.val) < 1 ? value.hue : 2 - value.hue)
-		);
-	};
 </script>
 
 <div class="container mx-auto flex flex-col overflow-auto">

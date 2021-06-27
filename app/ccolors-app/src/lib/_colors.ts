@@ -34,3 +34,10 @@ export const rgbToHexString = (r: number, g: number, b: number): string => {
     const rHex = r.toString(16), gHex = g.toString(16), bHex = b.toString(16);
     return "#" + rHex + gHex + bHex;
 }
+
+export const getHSLSatFromHSV = (value: { hue: number; sat: number; val: number }): number => {
+    return (
+        (value.sat * value.val) /
+        ((value.hue = (2 - value.sat) * value.val) < 1 ? value.hue : 2 - value.hue)
+    );
+};

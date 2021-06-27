@@ -11,10 +11,8 @@
 	];
 </script>
 
-<div class="h-full w-80 flex-grow-0 flex-shrink-0 flex flex-col items-start pt-10" id="sidebar">
-	<button class="w-4/5 h-10 mx-auto bg-white rounded-lg border border-black font-bold rainbow">
-		Random Color
-	</button>
+<div id="sidebar">
+	<button class="rainbow"> Random Color </button>
 	<ul class="mt-6 w-4/5 h-10 mx-auto">
 		{#each colorCategories as { name, code }}
 			<li class="text-xl my-2">

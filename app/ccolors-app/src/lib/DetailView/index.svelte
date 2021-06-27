@@ -16,14 +16,10 @@
 	href="/detail/{id}"
 >
 	<div class="w-full h-5/6" />
-	<p
-		class="text-4xl pl-8 pb-0.5 pt-5 overflow-ellipsis overflow-hidden w-full text-left bg-white border-t border-gray-200"
-	>
+	<p class="large-hex-code">
 		{hexCode()}
 	</p>
-	<p
-		class="text-2xl pl-8 pb-4 overflow-ellipsis overflow-hidden w-full text-left bg-white rounded-b-xl"
-	>
+	<p class="large-color-name">
 		{colorName}
 	</p>
 </div>

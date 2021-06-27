@@ -1,5 +1,13 @@
 @tailwind base;
 
+#sidebar {
+	@apply h-full w-80 flex-grow-0 flex-shrink-0 flex flex-col items-start pt-10;
+}
+
+.rainbow {
+	@apply w-4/5 h-10 mx-auto bg-white rounded-lg border border-black font-bold;
+}
+
 .swatch-preview {
 	@apply block flex-grow-0 flex-shrink-0 w-40 h-44 rounded-lg flex flex-col content-start;
 }
@@ -10,6 +18,22 @@
 
 .header {
 	@apply flex-grow-0 flex-shrink-0 box-content w-full h-16 py-3 flex flex-row justify-between items-center;
+}
+
+.preview-hex-code {
+	@apply text-base pl-2 pb-0.5 overflow-ellipsis overflow-hidden w-full text-left bg-white border-t border-gray-200;
+}
+
+.preview-color-name {
+	@apply text-xs pl-2 pb-1 overflow-ellipsis overflow-hidden w-full text-left bg-white rounded-b-md;
+}
+
+.large-hex-code {
+	@apply text-4xl pl-8 pb-0.5 pt-5 overflow-ellipsis overflow-hidden w-full text-left bg-white border-t border-gray-200;
+}
+
+.large-color-name {
+	@apply text-2xl pl-8 pb-4 overflow-ellipsis overflow-hidden w-full text-left bg-white rounded-b-xl;
 }
 
 @tailwind components;

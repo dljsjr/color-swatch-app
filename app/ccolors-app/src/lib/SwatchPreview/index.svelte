@@ -16,14 +16,10 @@
 	href="/detail/{id}"
 >
 	<div class="w-full h-5/6" />
-	<p
-		class="text-base pl-2 pb-0.5 overflow-ellipsis overflow-hidden w-full text-left bg-white border-t border-gray-200"
-	>
+	<p class="preview-hex-code">
 		{hexCode()}
 	</p>
-	<p
-		class="text-xs pl-2 pb-1 overflow-ellipsis overflow-hidden w-full text-left bg-white rounded-b-md"
-	>
+	<p class="preview-color-name">
 		{colorName}
 	</p>
 </a>
