@@ -3,6 +3,8 @@ services:
   api:
     build: api
     restart: always
+    depends_on:
+      - postgres
     ports:
       - "8000:8000"
   postgres:
@@ -15,6 +17,14 @@ services:
     environment:
       POSTGRES_DB: ccolors
       POSTGRES_PASSWORD: postgrespassword
+  app:
+    build: app
+    restart: always
+    depends_on:
+      - api
+      - postgres
+    ports:
+      - "3000:3000"
 ## This docker-compose is based on the Hasura docker compose.
 ## graphql-engine commented out for now. Just using it to bring
 ## up postgres.

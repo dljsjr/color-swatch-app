@@ -54,6 +54,79 @@
       "nullable": []
     }
   },
+  "ea241d9f0a521d5b49a6da3216f6458b129bb4e3a890252f2cfb33c51bb9c068": {
+    "query": "SELECT id as \"id: u32\", name, value as \"value: ColorHSV\" FROM colors WHERE id = $1",
+    "describe": {
+      "columns": [
+        {
+          "ordinal": 0,
+          "name": "id: u32",
+          "type_info": "Int4"
+        },
+        {
+          "ordinal": 1,
+          "name": "name",
+          "type_info": "Varchar"
+        },
+        {
+          "ordinal": 2,
+          "name": "value: ColorHSV",
+          "type_info": {
+            "Custom": {
+              "name": "colorhsv",
+              "kind": {
+                "Composite": [
+                  [
+                    "hue",
+                    {
+                      "Custom": {
+                        "name": "colorpart",
+                        "kind": {
+                          "Domain": "Float4"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "sat",
+                    {
+                      "Custom": {
+                        "name": "colorpart",
+                        "kind": {
+                          "Domain": "Float4"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "val",
+                    {
+                      "Custom": {
+                        "name": "colorpart",
+                        "kind": {
+                          "Domain": "Float4"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "parameters": {
+        "Left": [
+          "Int4"
+        ]
+      },
+      "nullable": [
+        false,
+        false,
+        false
+      ]
+    }
+  },
   "efb7679a824883760b4662f9fc41e92badb6d32d4aa593cd4f8438cdc63dd93e": {
     "query": "SELECT id as \"id: u32\", name, value as \"value: ColorHSV\" FROM colors WHERE id BETWEEN $1 AND $2",
     "describe": {
