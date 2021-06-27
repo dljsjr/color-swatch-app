@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+
 	const colorCategories = [
 		{ name: 'Red', code: 'text-red-600' },
 		{ name: 'Orange', code: 'text-yellow-700' },
@@ -9,10 +11,14 @@
 		{ name: 'Brown', code: 'text-yellow-900' },
 		{ name: 'Gray', code: 'text-gray-500' }
 	];
+
+	const random = async () => {
+		goto('/api/random');
+	};
 </script>
 
 <div id="sidebar">
-	<button class="rainbow"> Random Color </button>
+	<button class="rainbow" on:click={random}> Random Color </button>
 	<ul class="mt-6 w-4/5 h-10 mx-auto">
 		{#each colorCategories as { name, code }}
 			<li class="text-xl my-2">
