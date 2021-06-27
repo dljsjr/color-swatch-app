@@ -40,6 +40,7 @@ impl ColorHSV {
 #[derive(Debug, Clone, PartialEq, Deserialize, Serialize, sqlx::Type)]
 #[serde(crate = "rocket::serde")]
 pub struct ColorRecord {
+    pub id: u32,
     pub name: String,
     pub value: ColorHSV,
 }

@@ -35,6 +35,9 @@ pub fn stage_database() -> AdHoc {
                 "SQLx Postgres Database",
                 init_postgres,
             ))
-            .mount("/colors", routes![routes::get_colors, routes::add_color])
+            .mount(
+                "/colors",
+                routes![routes::get_colors, routes::add_color, routes::get_info],
+            )
     })
 }
