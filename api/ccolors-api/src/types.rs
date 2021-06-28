@@ -44,3 +44,34 @@ pub struct ColorRecord {
     pub name: String,
     pub value: ColorHSV,
 }
+
+#[derive(Debug, Clone, PartialEq, Deserialize, Serialize, sqlx::Type)]
+#[serde(crate = "rocket::serde")]
+pub struct RestColorRecord {
+    pub id: u32,
+    pub name: String,
+    pub value: RestColorHSV,
+}
+
+#[derive(Debug, Clone, PartialEq, Deserialize, Serialize, sqlx::Type)]
+#[serde(crate = "rocket::serde")]
+#[sqlx(type_name = "colorHSV")]
+pub struct RestColorHSV {
+    hue: f32,
+    sat: f32,
+    val: f32,
+}
+
+impl From<RestColorRecord> for ColorRecord {
+    fn from(other: RestColorRecord) -> Self {
+        Self {
+            id: other.id,
+            name: other.name,
+            value: ColorHSV {
+                hue: ColorPart(other.value.hue),
+                sat: ColorPart(other.value.sat),
+                val: ColorPart(other.value.val),
+            },
+        }
+    }
+}

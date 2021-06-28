@@ -1,4 +1,4 @@
-use crate::types::{ColorRecord, ColorHSV, Database};
+use crate::types::{ColorHSV, ColorRecord, Database, RestColorRecord};
 use rocket::{State, response::{Responder, }, serde::json::Json};
 use serde_json::Value;
 use sqlx::postgres::PgDatabaseError;
@@ -88,8 +88,9 @@ pub async fn get_colors(db: &State<Database>, limit: usize, start_at: usize) -> 
 #[post("/add", format = "application/json", data = "<color>")]
 pub async fn add_color(
     db: &State<Database>,
-    color: Json<ColorRecord>,
+    color: Json<RestColorRecord>,
 ) -> JsonResponse {
+    let color: ColorRecord = color.0.into();
     let (hue, sat, val) = color.value.as_hsv_tuple();
     if let Err(e) = sqlx::query!(
         r#"
