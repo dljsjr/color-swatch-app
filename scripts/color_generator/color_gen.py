@@ -5,6 +5,7 @@ import colorsys
 import urllib.request
 import requests
 import random
+import time
 
 CSV_URL = "https://unpkg.com/color-name-list/dist/colornames.bestof.csv"
 
@@ -23,17 +24,11 @@ def color_row_to_json(row):
         red / 255.0, green / 255.0, blue / 255.0)
     color_name = row['name']
 
-    json_string = f"""
-    {{
-        "name": "{color_name}",
-        "value": {{
-            "hue": {hue},
-            "sat": {sat},
-            "val": {val}
-        }}
-    }}
-    """
-    return json_string
+    value = {"hue": hue, "sat": sat, "val": val}
+
+    ret = {"id": 0, "name": color_name, "value": value}
+
+    return ret
 
 
 def populate_database(color_rows, url, number):
@@ -41,9 +36,11 @@ def populate_database(color_rows, url, number):
         color = color_row_to_json(row)
 
         response = requests.post(
-            url, data=color)
+            url, json=color)
 
         print(response)
+
+        time.sleep(0.1)
 
         # try:
         #     cursor.execute(
