@@ -6,7 +6,11 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+      - type: bind
+        source: ./Caddyfile
+        target: /etc/caddy/Caddyfile
     depends_on:
       - app
   api:
@@ -54,4 +58,6 @@ services:
 #       ## uncomment next line to set an admin secret
 #       # HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
 volumes:
+  caddy_config:
+  caddy_data:
   db_data:
