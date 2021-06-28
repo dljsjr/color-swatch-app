@@ -3,8 +3,7 @@ import fire
 import csv
 import colorsys
 import urllib.request
-import psycopg2
-import sys
+import requests
 import random
 
 CSV_URL = "https://unpkg.com/color-name-list/dist/colornames.bestof.csv"
@@ -16,44 +15,47 @@ def get_color_dict():
         return csv.DictReader(response.splitlines())
 
 
-def color_row_to_record(row):
+def color_row_to_json(row):
     hex_code = row['hex'].lstrip('#')
     (red, green, blue) = (
         int(hex_code[0:2], 16), int(hex_code[2:4], 16), int(hex_code[4:6], 16))
     (hue, sat, val) = colorsys.rgb_to_hsv(
         red / 255.0, green / 255.0, blue / 255.0)
     color_name = row['name']
-    return color_name, (hue, sat, val)
+
+    json_string = f"""
+    {{
+        "name": "{color_name}",
+        "value": {{
+            "hue": {hue},
+            "sat": {sat},
+            "val": {val}
+        }}
+    }}
+    """
+    return json_string
 
 
-def create_database_connection():
-    db_conn = psycopg2.connect(
-        "dbname=ccolors user=postgres password=postgrespassword host=localhost")
-    cursor = db_conn.cursor()
-    return db_conn, cursor
-
-
-def close_database_connection(db_conn, cursor):
-    db_conn.commit()
-    cursor.close()
-    db_conn.close()
-
-
-def populate_database(color_rows, db_conn, cursor, number):
+def populate_database(color_rows, url, number):
     for (idx, row) in enumerate(color_rows):
-        color_name, (hue, sat, val) = color_row_to_record(row)
+        color = color_row_to_json(row)
 
-        try:
-            cursor.execute(
-                "INSERT INTO colors ( name, value ) VALUES ( %s, ((%s)::colorPart,(%s)::colorPart,(%s)::colorPart)::colorHSV )", (color_name, hue, sat, val))
-        except psycopg2.errors.UniqueViolation:
-            print(
-                F"Color {color_name} already exists in DB, skipping")
-            db_conn.commit()
-        except:
-            print(
-                F"Unexpected database error while generating colors: {sys.exc_info()[0]}; aborting color generation")
-            break
+        response = requests.post(
+            url, data=color)
+
+        print(response)
+
+        # try:
+        #     cursor.execute(
+        #         "INSERT INTO colors ( name, value ) VALUES ( %s, ((%s)::colorPart,(%s)::colorPart,(%s)::colorPart)::colorHSV )", (color_name, hue, sat, val))
+        # except psycopg2.errors.UniqueViolation:
+        #     print(
+        #         F"Color {color_name} already exists in DB, skipping")
+        #     db_conn.commit()
+        # except:
+        #     print(
+        #         F"Unexpected database error while generating colors: {sys.exc_info()[0]}; aborting color generation")
+        #     break
 
         if idx >= (number - 1):
             break
@@ -62,21 +64,14 @@ def populate_database(color_rows, db_conn, cursor, number):
 class ColorGenerator(object):
     """Generate the color swatch list using https://github.com/meodai/color-names"""
 
-    def default(self, number=100):
-        db_conn, cursor = create_database_connection()
+    def default(self, url, number=100):
+        populate_database(get_color_dict(), url, number)
 
-        populate_database(get_color_dict(), db_conn, cursor, number)
-
-        close_database_connection(db_conn, cursor)
-
-    def random(self, number=100):
-        db_conn, cursor = create_database_connection()
+    def random(self, url, number=100):
         colors = list(get_color_dict())
         random.shuffle(colors)
 
-        populate_database(colors, db_conn, cursor, number)
-
-        close_database_connection(db_conn, cursor)
+        populate_database(colors, url, number)
 
 
 if __name__ == '__main__':

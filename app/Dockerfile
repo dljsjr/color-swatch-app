@@ -9,6 +9,4 @@ FROM mhart/alpine-node:slim-14 as runtime
 WORKDIR /app
 COPY --from=builder /app .
 
-EXPOSE 3000
-
 CMD ["node", "./build"]
