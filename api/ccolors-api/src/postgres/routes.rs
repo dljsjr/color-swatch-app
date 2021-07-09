@@ -99,6 +99,38 @@ pub async fn search_colors(
 ) -> JsonResponse {
     let mut ret: Vec<ColorRecord> = Vec::with_capacity(10);
 
+    if let Some(text) = name {
+        let mut rows = sqlx::query_as!(
+            ColorRecord,
+            r#"
+SELECT id as "id: u32", name, value as "value: ColorHSV" FROM colors
+    WHERE
+        upper(name) ~ upper($1)
+        "#,
+            text
+        )
+        .fetch(&**db);
+
+        loop {
+            match rows.try_next().await {
+                Ok(Some(color)) => {
+                    ret.push(color);
+                }
+                Ok(None) => {
+                    break;
+                }
+                Err(e) => {
+                    let json = serde_json::json!({
+                        "error": {
+                            "message": format!("{:?}", &e),
+                        }
+                    });
+                    return DatabaseError(json);
+                }
+            }
+        }
+    }
+
     if let Some(code) = hex {
         let red = u8::from_str_radix(&code[0..2], 16).unwrap() as f32 / 255.0f32;
         let green = u8::from_str_radix(&code[2..4], 16).unwrap() as f32 / 255.0f32;
@@ -172,6 +204,10 @@ SELECT id as "id: u32", name, value as "value: ColorHSV" FROM colors
             }
         }
     }
+
+    ret.sort_by(|x, y| x.id.cmp(&y.id));
+
+    ret.dedup();
 
     Success(serde_json::to_value(&ret).unwrap())
 }
