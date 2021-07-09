@@ -65,9 +65,9 @@ This repo is based on the assignment found here: https://github.com/HelpfulHuman
 - [ ] Design
   - [ ] include interaction design
   - [ ] Add tints/shades in detail view
-- [ ] Functionality
-  - [ ] Add search functionality
+- [x] Functionality
+  - [x] Add search functionality
   - [x] Color generation script guarantees same colors and order
-  - [ ] Group by color (make sidebar menu functional)
+  - [x] Group by color (make sidebar menu functional)
 - [ ] Data
   - [ ] Fetch data with GraphQL
