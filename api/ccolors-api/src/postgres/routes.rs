@@ -104,10 +104,12 @@ pub async fn search_colors(
         let (hue_angle_lower_bound, hue_angle_upper_bound) = family.get_hue_bounds();
 
         let mut rows = match family {
+            // Red has wrap around to the high end so we tweak the query
+            ColorFamily::Red => sqlx::query_as!(ColorRecord, r#"SELECT id as "id: u32", name, value as "value: ColorHSV" FROM colors WHERE (((value).hue BETWEEN $1 AND $2) OR (value).hue BETWEEN 0.96 AND 1.0) AND ((value).sat > 0.05) AND ((value).val BETWEEN 0.1 AND 0.9)"#, hue_angle_lower_bound, hue_angle_upper_bound).fetch(&**db),
             // Brown is a weird duck that shares Hue ranges w/ Orange but has specific saturation and lightness
-            ColorFamily::Brown => sqlx::query_as!(ColorRecord, r#"SELECT id as "id: u32", name, value as "value: ColorHSV" FROM colors WHERE ((value).hue BETWEEN $1 AND $2) AND ((value).sat > 0.39) AND ((value).val BETWEEN 0.2 AND 0.75)"#, hue_angle_lower_bound, hue_angle_upper_bound).fetch(&**db),
-            ColorFamily::Gray => sqlx::query_as!(ColorRecord, r#"SELECT id as "id: u32", name, value as "value: ColorHSV" FROM colors WHERE (value).sat <= 0.25"#).fetch(&**db),
-            _ => sqlx::query_as!(ColorRecord, r#"SELECT id as "id: u32", name, value as "value: ColorHSV" FROM colors WHERE ((value).hue BETWEEN $1 AND $2) AND ((value).sat > 0.25) AND ((value).val BETWEEN 0.2 AND 0.8)"#, hue_angle_lower_bound, hue_angle_upper_bound).fetch(&**db)
+            ColorFamily::Brown => sqlx::query_as!(ColorRecord, r#"SELECT id as "id: u32", name, value as "value: ColorHSV" FROM colors WHERE ((value).hue BETWEEN $1 AND $2) AND ((value).sat > 0.23) AND ((value).val BETWEEN 0.2 AND 0.75)"#, hue_angle_lower_bound, hue_angle_upper_bound).fetch(&**db),
+            ColorFamily::Gray => sqlx::query_as!(ColorRecord, r#"SELECT id as "id: u32", name, value as "value: ColorHSV" FROM colors WHERE (value).sat <= 0.05"#).fetch(&**db),
+            _ => sqlx::query_as!(ColorRecord, r#"SELECT id as "id: u32", name, value as "value: ColorHSV" FROM colors WHERE ((value).hue BETWEEN $1 AND $2) AND ((value).sat > 0.05) AND ((value).val BETWEEN 0.1 AND 0.9)"#, hue_angle_lower_bound, hue_angle_upper_bound).fetch(&**db)
         };
 
         loop {
