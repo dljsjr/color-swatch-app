@@ -28,5 +28,6 @@ async fn main() -> Result<()> {
     }
 }
 
+pub mod color_tools;
 pub mod postgres;
 pub mod types;

@@ -99,6 +99,48 @@ pub async fn search_colors(
 ) -> JsonResponse {
     let mut ret: Vec<ColorRecord> = Vec::with_capacity(10);
 
+    if let Some(code) = hex {
+        let red = u8::from_str_radix(&code[0..2], 16).unwrap() as f32 / 255.0f32;
+        let green = u8::from_str_radix(&code[2..4], 16).unwrap() as f32 / 255.0f32;
+        let blue = u8::from_str_radix(&code[4..6], 16).unwrap() as f32 / 255.0f32;
+
+        let (hue, sat, val) = crate::color_tools::rgb_to_hsv(red, green, blue);
+
+        let mut rows = sqlx::query_as!(
+            ColorRecord,
+            r#"
+SELECT id as "id: u32", name, value as "value: ColorHSV" FROM colors
+    WHERE
+        round((value).hue::numeric, 2) = round(($1)::numeric, 2) AND
+        round((value).sat::numeric, 2) = round(($2)::numeric, 2) AND
+        round((value).val::numeric, 2) = round(($3)::numeric, 2)
+        "#,
+            hue as f32,
+            sat as f32,
+            val as f32
+        )
+        .fetch(&**db);
+
+        loop {
+            match rows.try_next().await {
+                Ok(Some(color)) => {
+                    ret.push(color);
+                }
+                Ok(None) => {
+                    break;
+                }
+                Err(e) => {
+                    let json = serde_json::json!({
+                        "error": {
+                            "message": format!("{:?}", &e),
+                        }
+                    });
+                    return DatabaseError(json);
+                }
+            }
+        }
+    }
+
     if let Some(family) = color_family {
         let (hue_angle_lower_bound, hue_angle_upper_bound) = family.get_hue_bounds();
 
