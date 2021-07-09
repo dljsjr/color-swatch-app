@@ -3,19 +3,19 @@
 	 * @type {import('@sveltejs/kit').Load}
 	 */
 	export async function load({ page, fetch, session, context }) {
-		const colors_fetch = await fetch('/api/colors/1');
-		let colors_json = (await colors_fetch.json())['json'];
+		const colorsFetch = await fetch('/api/colors/1');
+		let colorsJson = (await colorsFetch.json())['json'];
 
-		if (colors_fetch.ok) {
+		if (colorsFetch.ok) {
 			return {
 				props: {
-					json: colors_json
+					json: colorsJson
 				}
 			};
 		} else {
 			return {
-				status: colors_fetch.status,
-				error: new Error(`Error getting color list from API ${colors_fetch.error}`)
+				status: colorsFetch.status,
+				error: new Error(`Error getting color list from API ${colorsFetch.error}`)
 			};
 		}
 	}

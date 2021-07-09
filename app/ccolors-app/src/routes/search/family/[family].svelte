@@ -4,19 +4,19 @@
 	 */
 	export async function load({ page, fetch, session, context }) {
 		let color_family = page.params.family;
-		const colors_fetch = await fetch(`/api/search/family/${color_family}`);
-		let colors_json = (await colors_fetch.json())['json'];
+		const colorsFetch = await fetch(`/api/search/family/${color_family}`);
+		let colorsJson = (await colorsFetch.json())['json'];
 
-		if (colors_fetch.ok) {
+		if (colorsFetch.ok) {
 			return {
 				props: {
-					json: colors_json
+					json: colorsJson
 				}
 			};
 		} else {
 			return {
-				status: colors_fetch.status,
-				error: new Error(`Error getting color list from API ${colors_fetch.error}`)
+				status: colorsFetch.status,
+				error: new Error(`Error getting color list from API ${colorsFetch.error}`)
 			};
 		}
 	}

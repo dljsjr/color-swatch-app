@@ -1,13 +1,13 @@
 <script lang="ts" context="module">
 	import { totalColors, colorsPerPage, totalPages } from '$lib/stores/state';
 	export async function load({ page, fetch, session, context }) {
-		const metadata_fetch = await fetch('/api/count');
+		const metadataFetch = await fetch('/api/count');
 
-		if (metadata_fetch.ok) {
+		if (metadataFetch.ok) {
 			let limit: number;
 			colorsPerPage.subscribe((val) => (limit = val))();
 
-			const count = (await metadata_fetch.json())['json']['count'];
+			const count = (await metadataFetch.json())['json']['count'];
 			totalColors.set(count);
 
 			const pages = Math.ceil(count / limit);
@@ -18,8 +18,8 @@
 			};
 		} else {
 			return {
-				status: metadata_fetch.status,
-				error: new Error(`Error getting color list from API ${metadata_fetch.error}`)
+				status: metadataFetch.status,
+				error: new Error(`Error getting color list from API ${metadataFetch.error}`)
 			};
 		}
 	}

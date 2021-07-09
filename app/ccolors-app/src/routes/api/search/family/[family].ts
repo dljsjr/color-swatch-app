@@ -1,16 +1,16 @@
 export async function get({ params }) {
     
-    const search_url = "http://localhost:8000/colors/search?&color_family=" + params.family;
-    const response = await fetch(search_url);
+    const searchUrl = "http://localhost:8000/colors/search?&color_family=" + params.family;
+    const response = await fetch(searchUrl);
 
     console.log(response);
 
     if (response.ok) {
-        const ret_json = await response.json();
-        console.log(ret_json);
+        const retJson = await response.json();
+        console.log(retJson);
         return {
             body: {
-                json: ret_json
+                json: retJson
             }
         };
     } else {
