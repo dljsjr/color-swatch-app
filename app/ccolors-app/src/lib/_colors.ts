@@ -41,3 +41,14 @@ export const getHSLSatFromHSV = (value: { hue: number; sat: number; val: number 
         ((value.hue = (2 - value.sat) * value.val) < 1 ? value.hue : 2 - value.hue)
     );
 };
+
+export enum ColorFamily {
+    Red = "RED",
+    Orange = "ORANGE",
+    Yellow = "YELLOW",
+    Green = "GREEN",
+    Blue = "BLUE",
+    Purple = "PURPLE",
+    Brown = "BROWN",
+    Gray = "GRAY",
+}
