@@ -22,8 +22,9 @@
 	<ul class="mt-6 w-4/5 h-10 mx-auto">
 		{#each colorCategories as { name, code }}
 			<li class="text-xl my-2">
-				<a class="transition-colors duration-500 ease-in-out hover:underline hover:{code}" href="/"
-					>{name}</a
+				<a
+					class="transition-colors duration-500 ease-in-out hover:underline hover:{code}"
+					href="/search/family/{name.toLocaleLowerCase()}">{name}</a
 				>
 			</li>
 		{/each}

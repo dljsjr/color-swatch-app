@@ -4,6 +4,7 @@
 	import { getHSLSatFromHSV } from '$lib/_colors';
 
 	export let colors;
+	export let paginate = true;
 </script>
 
 <div class="container mx-auto flex flex-col overflow-auto">
@@ -17,13 +18,15 @@
 			/>
 		{/each}
 	</div>
-	<div class="flex flex-row justify-center">
-		{#each Array($totalPages) as _, idx}
-			<a class="text-2xl mx-2 mt-8 hover:underline hover:text-black" href="/colors/{idx + 1}">
-				{idx + 1}
-			</a>
-		{/each}
-	</div>
+	{#if paginate}
+		<div class="flex flex-row justify-center">
+			{#each Array($totalPages) as _, idx}
+				<a class="text-2xl mx-2 mt-8 hover:underline hover:text-black" href="/colors/{idx + 1}">
+					{idx + 1}
+				</a>
+			{/each}
+		</div>
+	{/if}
 </div>
 
 <style>

@@ -3,8 +3,8 @@
 	 * @type {import('@sveltejs/kit').Load}
 	 */
 	export async function load({ page, fetch, session, context }) {
-		let requestedPage = parseInt(page.params.page);
-		const colors_fetch = await fetch(`/api/colors/${requestedPage}`);
+		let color_family = page.params.family;
+		const colors_fetch = await fetch(`/api/search/family/${color_family}`);
 		let colors_json = (await colors_fetch.json())['json'];
 
 		if (colors_fetch.ok) {
@@ -28,4 +28,4 @@
 	export let json;
 </script>
 
-<ListView colors={json} paginate={true} />
+<ListView colors={json} paginate={false} />

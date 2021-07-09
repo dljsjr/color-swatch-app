@@ -27,4 +27,4 @@
 	export let json;
 </script>
 
-<ListView colors={json} />
+<ListView colors={json} paginate={true} />
