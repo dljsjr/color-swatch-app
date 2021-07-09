@@ -41,7 +41,8 @@ pub fn stage_database() -> AdHoc {
                     routes::get_colors,
                     routes::add_color,
                     routes::get_info,
-                    routes::get_color
+                    routes::get_color,
+                    routes::search_colors
                 ],
             )
     })

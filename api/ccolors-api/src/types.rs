@@ -7,6 +7,35 @@ pub type Database = sqlx::PgPool;
 #[serde(crate = "rocket::serde")]
 pub struct ColorPart(f32);
 
+#[derive(Debug, Clone, PartialEq, Eq, Deserialize, Serialize, Copy, FromFormField)]
+#[serde(crate = "rocket::serde")]
+pub enum ColorFamily {
+    Red,
+    Orange,
+    Yellow,
+    Green,
+    Blue,
+    Purple,
+    Brown,
+    Gray,
+}
+
+impl ColorFamily {
+    /// Hue bounds taken from here: https://en.wikipedia.org/wiki/Hue
+    pub fn get_hue_bounds(&self) -> (f32, f32) {
+        match self {
+            ColorFamily::Red => (0.0f32, 15.0f32 / 360.0f32),
+            ColorFamily::Orange => (15.0f32 / 360.0f32, 45.0f32 / 360.0f32),
+            ColorFamily::Yellow => (45.0f32 / 360.0f32, 75.0f32 / 360.0f32),
+            ColorFamily::Green => (75.0f32 / 360.0f32, 180.0f32 / 360.0f32),
+            ColorFamily::Blue => (165.0f32 / 360.0f32, 270.0f32 / 360.0f32),
+            ColorFamily::Purple => (255.0f32 / 360.0f32, 359.0f32 / 360.0f32),
+            ColorFamily::Brown => ColorFamily::Orange.get_hue_bounds(),
+            ColorFamily::Gray => (0.0f32, 1.0f32),
+        }
+    }
+}
+
 /// Creates a new ColorHSV struct.
 /// HSV values are stored in the range [0.0, 1.0].
 /// Values outside of those bounds will get saturated at construction.
