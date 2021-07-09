@@ -1,6 +1,6 @@
 export async function get({ params }) {
     
-    const search_url = "http://localhost:8000/colors/search?query=\"\"&color_family=" + params.family;
+    const search_url = "http://localhost:8000/colors/search?&color_family=" + params.family;
     const response = await fetch(search_url);
 
     console.log(response);

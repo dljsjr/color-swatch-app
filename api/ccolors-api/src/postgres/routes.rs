@@ -90,10 +90,9 @@ pub async fn get_colors(db: &State<Database>, limit: usize, start_at: usize) -> 
     Success(serde_json::to_value(&ret).unwrap_or_default())
 }
 
-#[get("/search?<query>&<name>&<hex>&<color_family>")]
+#[get("/search?<name>&<hex>&<color_family>")]
 pub async fn search_colors(
     db: &State<Database>,
-    query: &str,
     name: Option<&str>,
     hex: Option<&str>,
     color_family: Option<ColorFamily>,
