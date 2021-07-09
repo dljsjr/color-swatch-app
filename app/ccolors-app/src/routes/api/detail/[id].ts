@@ -1,7 +1,7 @@
 export async function get({ params }) {
     const requestedId = parseInt(params.id);
 
-    const detailUrl = 'http://localhost:8000/colors/get?id=' + requestedId;
+    const detailUrl = 'http://api:8000/colors/get?id=' + requestedId;
     const response = await fetch(detailUrl);
 
     if (response.ok) {

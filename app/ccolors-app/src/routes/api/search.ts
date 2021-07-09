@@ -30,7 +30,7 @@ export async function get({ query }) {
         params.set('color_family', colorFamily.toLocaleLowerCase())
     }
 
-    const url = "http://localhost:8000/colors/search?" + params.toString();
+    const url = "http://api:8000/colors/search?" + params.toString();
 
     console.log(url);
 

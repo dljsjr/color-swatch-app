@@ -1,7 +1,7 @@
 export async function post(request) {
     const payload = request.body;
 
-    const response = await fetch("http://localhost:8000/colors/add", {
+    const response = await fetch("http://api:8000/colors/add", {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
