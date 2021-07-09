@@ -1,5 +1,5 @@
 export async function get({ params }) {
-    const metadata_url = "http://api:8000/colors/info";
+    const metadata_url = "http://localhost:8000/colors/info";
     const response = await fetch(metadata_url);
 
     const json = await response.json();

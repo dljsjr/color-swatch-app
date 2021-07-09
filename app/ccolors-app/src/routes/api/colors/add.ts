@@ -3,7 +3,7 @@ export async function post(request) {
 
     console.log(payload);
 
-    const response = await fetch("http://api:8000/colors/add", {
+    const response = await fetch("http://localhost:8000/colors/add", {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
