@@ -1,5 +1,228 @@
 {
   "db": "PostgreSQL",
+  "0b18e146b2de626870bfb76f42f1d9da4727067277bcf30b6844a534d3379320": {
+    "query": "SELECT id as \"id: u32\", name, value as \"value: ColorHSV\" FROM colors WHERE ((value).hue BETWEEN $1 AND $2) AND ((value).sat > 0.23) AND ((value).val BETWEEN 0.2 AND 0.75)",
+    "describe": {
+      "columns": [
+        {
+          "ordinal": 0,
+          "name": "id: u32",
+          "type_info": "Int4"
+        },
+        {
+          "ordinal": 1,
+          "name": "name",
+          "type_info": "Varchar"
+        },
+        {
+          "ordinal": 2,
+          "name": "value: ColorHSV",
+          "type_info": {
+            "Custom": {
+              "name": "colorhsv",
+              "kind": {
+                "Composite": [
+                  [
+                    "hue",
+                    {
+                      "Custom": {
+                        "name": "colorpart",
+                        "kind": {
+                          "Domain": "Float4"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "sat",
+                    {
+                      "Custom": {
+                        "name": "colorpart",
+                        "kind": {
+                          "Domain": "Float4"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "val",
+                    {
+                      "Custom": {
+                        "name": "colorpart",
+                        "kind": {
+                          "Domain": "Float4"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "parameters": {
+        "Left": [
+          "Float4",
+          "Float4"
+        ]
+      },
+      "nullable": [
+        false,
+        false,
+        false
+      ]
+    }
+  },
+  "2a6c507fb122df5313cab71e7f408b01f866515dd6da5da4ad45ceba71ed1591": {
+    "query": "\nSELECT id as \"id: u32\", name, value as \"value: ColorHSV\" FROM colors\n    WHERE\n        round((value).hue::numeric, 2) = round(($1)::numeric, 2) AND\n        round((value).sat::numeric, 2) = round(($2)::numeric, 2) AND\n        round((value).val::numeric, 2) = round(($3)::numeric, 2)\n        ",
+    "describe": {
+      "columns": [
+        {
+          "ordinal": 0,
+          "name": "id: u32",
+          "type_info": "Int4"
+        },
+        {
+          "ordinal": 1,
+          "name": "name",
+          "type_info": "Varchar"
+        },
+        {
+          "ordinal": 2,
+          "name": "value: ColorHSV",
+          "type_info": {
+            "Custom": {
+              "name": "colorhsv",
+              "kind": {
+                "Composite": [
+                  [
+                    "hue",
+                    {
+                      "Custom": {
+                        "name": "colorpart",
+                        "kind": {
+                          "Domain": "Float4"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "sat",
+                    {
+                      "Custom": {
+                        "name": "colorpart",
+                        "kind": {
+                          "Domain": "Float4"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "val",
+                    {
+                      "Custom": {
+                        "name": "colorpart",
+                        "kind": {
+                          "Domain": "Float4"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "parameters": {
+        "Left": [
+          "Numeric",
+          "Numeric",
+          "Numeric"
+        ]
+      },
+      "nullable": [
+        false,
+        false,
+        false
+      ]
+    }
+  },
+  "2ff9d22f1c36a9c3996411bed5ca236e6adb8697321e46b8073bb81242003934": {
+    "query": "SELECT id as \"id: u32\", name, value as \"value: ColorHSV\" FROM colors WHERE ((value).hue BETWEEN $1 AND $2) AND ((value).sat > 0.05) AND ((value).val BETWEEN 0.1 AND 0.9)",
+    "describe": {
+      "columns": [
+        {
+          "ordinal": 0,
+          "name": "id: u32",
+          "type_info": "Int4"
+        },
+        {
+          "ordinal": 1,
+          "name": "name",
+          "type_info": "Varchar"
+        },
+        {
+          "ordinal": 2,
+          "name": "value: ColorHSV",
+          "type_info": {
+            "Custom": {
+              "name": "colorhsv",
+              "kind": {
+                "Composite": [
+                  [
+                    "hue",
+                    {
+                      "Custom": {
+                        "name": "colorpart",
+                        "kind": {
+                          "Domain": "Float4"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "sat",
+                    {
+                      "Custom": {
+                        "name": "colorpart",
+                        "kind": {
+                          "Domain": "Float4"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "val",
+                    {
+                      "Custom": {
+                        "name": "colorpart",
+                        "kind": {
+                          "Domain": "Float4"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "parameters": {
+        "Left": [
+          "Float4",
+          "Float4"
+        ]
+      },
+      "nullable": [
+        false,
+        false,
+        false
+      ]
+    }
+  },
   "7630b2708073f9e1e409196bedb80174234d1556f37f95eb322b8c9d0641e803": {
     "query": "SELECT COUNT(*) FROM colors",
     "describe": {
@@ -52,6 +275,224 @@
         ]
       },
       "nullable": []
+    }
+  },
+  "8bc7ee63e30dcc0355d2de1016372261ed6f64f7ae67362162828c9d4bc92d6e": {
+    "query": "SELECT id as \"id: u32\", name, value as \"value: ColorHSV\" FROM colors WHERE (((value).hue BETWEEN $1 AND $2) OR (value).hue BETWEEN 0.96 AND 1.0) AND ((value).sat > 0.05) AND ((value).val BETWEEN 0.1 AND 0.9)",
+    "describe": {
+      "columns": [
+        {
+          "ordinal": 0,
+          "name": "id: u32",
+          "type_info": "Int4"
+        },
+        {
+          "ordinal": 1,
+          "name": "name",
+          "type_info": "Varchar"
+        },
+        {
+          "ordinal": 2,
+          "name": "value: ColorHSV",
+          "type_info": {
+            "Custom": {
+              "name": "colorhsv",
+              "kind": {
+                "Composite": [
+                  [
+                    "hue",
+                    {
+                      "Custom": {
+                        "name": "colorpart",
+                        "kind": {
+                          "Domain": "Float4"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "sat",
+                    {
+                      "Custom": {
+                        "name": "colorpart",
+                        "kind": {
+                          "Domain": "Float4"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "val",
+                    {
+                      "Custom": {
+                        "name": "colorpart",
+                        "kind": {
+                          "Domain": "Float4"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "parameters": {
+        "Left": [
+          "Float4",
+          "Float4"
+        ]
+      },
+      "nullable": [
+        false,
+        false,
+        false
+      ]
+    }
+  },
+  "a57b469c9986c804b077f04a42185310f1452e47f1b682fdf243c5a51d655dcb": {
+    "query": "SELECT id as \"id: u32\", name, value as \"value: ColorHSV\" FROM colors WHERE (value).sat <= 0.05",
+    "describe": {
+      "columns": [
+        {
+          "ordinal": 0,
+          "name": "id: u32",
+          "type_info": "Int4"
+        },
+        {
+          "ordinal": 1,
+          "name": "name",
+          "type_info": "Varchar"
+        },
+        {
+          "ordinal": 2,
+          "name": "value: ColorHSV",
+          "type_info": {
+            "Custom": {
+              "name": "colorhsv",
+              "kind": {
+                "Composite": [
+                  [
+                    "hue",
+                    {
+                      "Custom": {
+                        "name": "colorpart",
+                        "kind": {
+                          "Domain": "Float4"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "sat",
+                    {
+                      "Custom": {
+                        "name": "colorpart",
+                        "kind": {
+                          "Domain": "Float4"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "val",
+                    {
+                      "Custom": {
+                        "name": "colorpart",
+                        "kind": {
+                          "Domain": "Float4"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "parameters": {
+        "Left": []
+      },
+      "nullable": [
+        false,
+        false,
+        false
+      ]
+    }
+  },
+  "c4ee28b584e0b947d0a3c774b412259a2bbdeab18e7fd45a81ef50bdb75bf6a6": {
+    "query": "\nSELECT id as \"id: u32\", name, value as \"value: ColorHSV\" FROM colors\n    WHERE\n        upper(name) ~ upper($1)\n        ",
+    "describe": {
+      "columns": [
+        {
+          "ordinal": 0,
+          "name": "id: u32",
+          "type_info": "Int4"
+        },
+        {
+          "ordinal": 1,
+          "name": "name",
+          "type_info": "Varchar"
+        },
+        {
+          "ordinal": 2,
+          "name": "value: ColorHSV",
+          "type_info": {
+            "Custom": {
+              "name": "colorhsv",
+              "kind": {
+                "Composite": [
+                  [
+                    "hue",
+                    {
+                      "Custom": {
+                        "name": "colorpart",
+                        "kind": {
+                          "Domain": "Float4"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "sat",
+                    {
+                      "Custom": {
+                        "name": "colorpart",
+                        "kind": {
+                          "Domain": "Float4"
+                        }
+                      }
+                    }
+                  ],
+                  [
+                    "val",
+                    {
+                      "Custom": {
+                        "name": "colorpart",
+                        "kind": {
+                          "Domain": "Float4"
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      },
+      "nullable": [
+        false,
+        false,
+        false
+      ]
     }
   },
   "ea241d9f0a521d5b49a6da3216f6458b129bb4e3a890252f2cfb33c51bb9c068": {
